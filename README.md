@@ -1,5 +1,5 @@
-The Global Federation of Assemblies
-=====================================
+nucl.io
+==========
 
 Introduction
 -------------
