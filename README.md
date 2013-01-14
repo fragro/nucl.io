@@ -8,12 +8,6 @@ Reboot of Open Assembly based on 3 years on combat design and field testing and 
 make the original vision of Open Assembly more tangible and realistic. In reality the original vision
 was not possible with Python/Django as an open source project, and the technology needed has only now matured.
 
-TODO
------
-
-* New Site Name (2 syllables, unique, acronyms are good, recursion is good, ie GNU <GNU's NOT UNIX> )
-* Delineation of Tasks to contributors
-
 
 Major features
 ---------------
