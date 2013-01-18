@@ -30,6 +30,7 @@ Dependencies
 * jQuery Lingua or equivalent
 * GeoIP
 * GeoLite Text Based Lat/Long Lookup
+* NodeInterval (handlebars template in different folders)
 
 Models
 --------
@@ -39,15 +40,15 @@ Models
 User account ties the user to the system and stores any relevant extra information in an
 attribute dictionary, allowing us to implement SMS, Picture verification, user location, or other features in the future easily.
 
-> user = 
+	user = 
 
->>	mobile: "9188120430"
+		mobile: "9188120430"
 
->>	location: "Tulsa, OK, USA"
+		location: "Tulsa, OK, USA"
 
->>	verified: true
+		verified: true
 
->>	subscribed: ["asda9d79ad98ad98", "asd89a7sdasdy89a7d8yad7y"] # subscribed movements
+		subscribed: ["asda9d79ad98ad98", "asd89a7sdasdy89a7d8yad7y"] # subscribed movements
 
 
 ### Movements
@@ -58,15 +59,15 @@ but instead of being related to the content act as a container for sparks, actio
 
 Movements can be lightwight. Links to the movement via _id are linked in Sparks, Actions, and user subscriptions.
 
-> movement = 
+	movement = 
 
->>	title: "OccupyWallStreet"
+		title: "OccupyWallStreet"
 
->>	spark_cnt: 37456
+		spark_cnt: 37456
 
->>	user_cnt: 120457
+		user_cnt: 120457
 
->>	action_cnt: 67987
+		action_cnt: 67987
 
 It is also possible to allow users within the group to define a group privacy setting via consensus, allowing for private or closed groups
 that require an invite. The reason is this increases attractiveness for groups that are operating a clandestine operation or resistance
@@ -87,25 +88,27 @@ by the voting produced by participators.
 
 ### Sparks
 
+
 Seed Idea, Problem/Solution, Issue, or Community Goal. Whatever the users want to make it. Users can plug currency into sparks, which is then
 output to the actions that result from a spark. This incentivizes actions in the system and high quality sparks to attract funding
 and subsequent actions to earn that funding. Once actions have been completed the Spark's rank decreases as it's funding base depletes.
 
 Pushing currency into a Spark can only keep it afloat for a short period of time and the currency decays from the Spark with a small amount bleeding back into your account, however the taxes in that Spark do not return. This makes it important to invest in Sparks that are feasible
 
-This allows users to keep Sparks rolling and keep actions going, even if 
+This allows users to keep Sparks rolling and keep actions going creating a more persistent mechanism for discourse.
+
+#### Simple Sparks 
 
 * Content (Text, Videos, Images)
 * Class (Environmentalist, Anarcho-Socialist, Conservative)
 
-#### Spark functions and accessors:
+##### Spark functions and accessors:
 
 * Pump X Reps into Spark -> Remove X Reps from User
 * Comment on Spark
 
 Sparks are rated by the amount of money they have but there is also the equivalent of rising and new rankings for sparks that take
 into account other factors for viewing to allow new sparks to gain traction.
-
 
 ### Actions
 
@@ -139,24 +142,39 @@ A simple model, basically invoked when a user is planning or in the process of u
 bookmark, or a pledge, to achieve some action based on a spark. The pledge can include the time of action, time of completion, to reward
 users that consistently complete a pledge.
 
-> pledge = 
+	pledge = 
 
->>	spark: "asdj7asd787sa8d78s"
+		spark: "asdj7asd787sa8d78s"
 
->>	userId: "adakjsdiadioajdod"
+		userId: "adakjsdiadioajdod"
 
->>	creationDate: "October 13, 1975 11:13:00"
+		creationDate: "October 13, 1975 11:13:00"
 
->>	completionDate: "October 13, 1975 11:13:00"
+		completionDate: "October 13, 1975 11:13:00"
 
 
-### Comments
+### Comments/Consensus
 
-Comment system takes into account flaws of existing comment systems into its design. Some key ideas:
+Comment system takes into account flaws of existing comment systems into its design. Comments often act as a consensus for
+the community. When one is browsing an active thread on Reddit or a similar system, one looks to the comments to see
+the general consensus of the community. However often this consensus is perverted by the ranking system and the way in which
+Reddit presents these comments. The interface has a massive influence on how the consensus is generated and the accuracy of the consensus.
 
 #### Top level comments are only shown. Child comments and lower must be expanded.
 
 This reduces the users ability to attach their comments to parents to achieve a higher ranking.
+
+#### Comments include a 140 character title
+
+This is important because when a comment is a single block of text we find that people tend to produce
+comments with less quality, instead opting for a shorter more attractive message. This leads to unproductive discussions 
+and longer but perhaps more insightful comments are pushed to the bottom and not voted as much, leading to a feedback loop
+in which low-quality but highly attractive threads (pun threads) disrupt discourse.
+
+To solve this problem we introduce a comment title while gives users the ability to both produce a long insightful comment,
+while providing a structural title to put a more attractive summary of the content.
+
+This also leads to easier to parse comment trees.
 
 #### 3 ways to Vote on a Comment
 
@@ -189,6 +207,19 @@ primarily to rank content, we can offer contextual voting similar to slashdot th
 This gives the ability to provide the user personalization without increasing the demand on the server.
 
 **Semantic terms to be determined**
+
+#### Hierachy and Ranking Mechanisms
+
+Comments need a ranking mechanism. Since we are not using simple upvotes and downvotes the comment system should instead be rated
+by the semantic terms as well as the class of the individuals voting. By including the class of the individual voting the user
+can browse opinion based on not simply the hivemind, but also see how different groups of people perceive the issue at hand. This 
+can give insight in how to specify one's arguments in order to attract groups that may be opposed to the issue.
+
+**Rank Terms By**
+
+* Semantic Dropdown
+
+* Class Dropdown with list of participating classes
 
 ### Trust and Social Mechanisms
 
@@ -229,27 +260,27 @@ Transactions in the system need to be tracked in order to facilitate refunds and
 
 Badges comprise the reward system with a user gaining badges for succesfully figuring out the interface, cooperating with other users, interacting with the currency system by pumping repbucks. Sharing links on other servers, committing actions, confirmed flagging of fraud. Badges could be rewarded for high quality comments or be related to class. The Rewards module is a series of reward models each including a test function that tests whether the user has qualified for the reward.
 
-> reward = 
+	reward = 
 
->>	template: 'template_key'
+		template: 'template_key'
 
->>	user: userId
+		user: userId
 
-> reward_test =
+	reward_test =
 
->>	template: 'template_key'
+		template: 'template_key'
 
->>	test: (user) -> test user
+		test: (user) -> test user
 
 Badges are expressed through a database test and a template key. Badge templates are stored in a dictionary on the server, and can be accessed when needed. THis
 
-> templateDict =
+	templateDict =
 
->>	action_creation_5: Meteor.Template.action_creation_5
+		action_creation_5: Meteor.Template.action_creation_5
 
->>	action_creation_10: Meteor.Template.action_creation_10
+		action_creation_10: Meteor.Template.action_creation_10
 
->>	action_creation_25: Meteor.Template.action_creation_25
+		action_creation_25: Meteor.Template.action_creation_25
 
 
 This would be useful for grabbing badges with a single DB call and iterating through the list directly rendering each by template.
@@ -318,3 +349,11 @@ Action info and content, comment list
 
 * About Page
 * FAQ with more details
+
+### Tutorials
+
+If a user is doing something for the first time, like joining, creating a spark or action, or any other 
+task in the system we present them with a tutorial view that explains the idea behind the task and tells them
+how to accomplish the task well. To integrate this into the system these tutorials are produced by sparks
+that the users can comment on and further add to.
+
